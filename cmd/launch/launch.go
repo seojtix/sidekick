@@ -88,7 +88,7 @@ var LaunchCmd = &cobra.Command{
 			if envHandleErr != nil {
 				render.GetLogger(log.Options{Prefix: "Env File"}).Fatalf("Something went wrong %s", envHandleErr)
 			}
-			defer os.Remove("encrypted.env")
+			defer os.Remove("encrypted.json")
 		} else {
 			render.GetLogger(log.Options{Prefix: "Env File"}).Info("Not Detected - Skipping env parsing")
 		}
@@ -218,13 +218,13 @@ var LaunchCmd = &cobra.Command{
 			}
 
 			if hasEnvFile {
-				encryptSync := exec.Command("rsync", "encrypted.env", fmt.Sprintf("%s@%s:%s", "sidekick", viper.GetString("serverAddress"), fmt.Sprintf("./%s", appName)))
+				encryptSync := exec.Command("rsync", "encrypted.json", fmt.Sprintf("%s@%s:%s", "sidekick", viper.GetString("serverAddress"), fmt.Sprintf("./%s", appName)))
 				encryptSyncErr := encryptSync.Run()
 				if encryptSyncErr != nil {
 					p.Send(render.ErrorMsg{ErrorStr: encryptSyncErr.Error()})
 				}
 
-				runAppCmdOutChan, _, sessionErr1 := utils.RunCommand(sshClient, fmt.Sprintf(`cd %s && export SOPS_AGE_KEY=%s && sops exec-env encrypted.env 'docker compose -p sidekick up -d'`, appName, viper.GetString("secretKey")))
+				runAppCmdOutChan, _, sessionErr1 := utils.RunCommand(sshClient, fmt.Sprintf(`cd %s && export SOPS_AGE_KEY=%s && sops exec-env encrypted.json 'docker compose -p sidekick up -d'`, appName, viper.GetString("secretKey")))
 				go func() {
 					p.Send(render.LogMsg{LogLine: <-runAppCmdOutChan + "\n"})
 					time.Sleep(time.Millisecond * 50)

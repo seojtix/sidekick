@@ -22,7 +22,7 @@ func TestHandleEnvFile(t *testing.T) {
 	err := os.WriteFile(envFileName, []byte(envContent), 0644)
 	assert.NoError(t, err)
 	defer os.Remove(envFileName)
-	defer os.Remove("encrypted.env")
+	defer os.Remove("encrypted.json")
 	envFile, envFileErr := os.Open(fmt.Sprintf("./%s", envFileName))
 	assert.NoError(t, envFileErr)
 

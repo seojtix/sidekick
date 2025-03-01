@@ -1,8 +1,16 @@
 - linux/amd64: different architectures support
 - support other distros: CentOS, Debian, CoreOS
 - save logs
-- change encrypted .env to encrypted.json
 - configure traefik to use letsencrypt ssl
+
+https://github.com/MightyMoud?tab=repositories
+https://github.com/MightyMoud/sidekick/issues/30
+https://docs.docker.com/build/building/multi-platform/
+https://github.com/MightyMoud/sidekick/issues/57
+https://github.com/MightyMoud/sidekick/issues/62
+https://github.com/MightyMoud/sidekick/issues/64
+https://github.com/MightyMoud/sidekick/issues/69
+https://github.com/MightyMoud/sidekick/issues/74
 
 <div align="center">
   <div>
@@ -168,7 +176,7 @@ This command will also do a couple of things behind the scenes. You can check th
   
 * Build your docker image locally for linux
 * Compare your latest env file checksum for changes from last time you deployed your application.
-* If your env file has changed, sidekick will re-encrypt it and replace the encrypted.env file on your server.
+* If your env file has changed, sidekick will re-encrypt it and replace the encrypted.json file on your server.
 * Deploy the new version with zero downtime deploys so you don't miss any traffic. 
 </details>
 

@@ -108,7 +108,7 @@ It assumes that your VPS is already configured and that your application is read
 					if envCmdErr := envCmd.Run(); envCmdErr != nil {
 						p.Send(render.ErrorMsg{ErrorStr: envCmdErr.Error()})
 					}
-					encryptSyncCmd := exec.Command("rsync", "-v", "encrypted.env", fmt.Sprintf("%s@%s:%s", "sidekick", viper.Get("serverAddress").(string), fmt.Sprintf("./%s", appConfig.Name)))
+					encryptSyncCmd := exec.Command("rsync", "-v", "encrypted.json", fmt.Sprintf("%s@%s:%s", "sidekick", viper.Get("serverAddress").(string), fmt.Sprintf("./%s", appConfig.Name)))
 					encryptSyncCmdErrPipe, _ := encryptSyncCmd.StderrPipe()
 					go render.SendLogsToTUI(encryptSyncCmdErrPipe, p)
 					if encryptSyncCmdErr := encryptSyncCmd.Run(); encryptSyncCmdErr != nil {
@@ -117,7 +117,7 @@ It assumes that your VPS is already configured and that your application is read
 					}
 				}
 			}
-			defer os.Remove("encrypted.env")
+			defer os.Remove("encrypted.json")
 
 			p.Send(render.NextStageMsg{})
 

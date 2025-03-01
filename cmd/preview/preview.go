@@ -207,13 +207,13 @@ var PreviewCmd = &cobra.Command{
 			}
 
 			if appConfig.Env.File != "" {
-				encryptSync := exec.Command("rsync", "encrypted.env", fmt.Sprintf("%s@%s:%s", "sidekick", viper.GetString("serverAddress"), previewFolder))
+				encryptSync := exec.Command("rsync", "encrypted.json", fmt.Sprintf("%s@%s:%s", "sidekick", viper.GetString("serverAddress"), previewFolder))
 				encryptSyncErrr := encryptSync.Run()
 				if encryptSyncErrr != nil {
 					p.Send(render.ErrorMsg{ErrorStr: encryptSyncErrr.Error()})
 				}
 
-				runAppCmdOutChan, _, sessionErr1 := utils.RunCommand(sshClient, fmt.Sprintf(`cd %s && export SOPS_AGE_KEY=%s && sops exec-env encrypted.env 'docker compose -p sidekick up -d'`, previewFolder, viper.GetString("secretKey")))
+				runAppCmdOutChan, _, sessionErr1 := utils.RunCommand(sshClient, fmt.Sprintf(`cd %s && export SOPS_AGE_KEY=%s && sops exec-env encrypted.json 'docker compose -p sidekick up -d'`, previewFolder, viper.GetString("secretKey")))
 				go func() {
 					p.Send(render.LogMsg{LogLine: <-runAppCmdOutChan + "\n"})
 					time.Sleep(time.Millisecond * 50)
@@ -245,7 +245,7 @@ var PreviewCmd = &cobra.Command{
 			os.WriteFile("./sidekick.yml", ymlData, 0644)
 
 			os.Remove("docker-compose.yaml")
-			os.Remove("encrypted.env")
+			os.Remove("encrypted.json")
 			os.Remove(imgFileName)
 
 			p.Send(render.AllDoneMsg{Duration: time.Since(start).Round(time.Second), URL: previewURL})

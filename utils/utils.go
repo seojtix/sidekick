@@ -197,7 +197,7 @@ func HandleEnvFile(envFileName string, dockerEnvProperty *[]string, envFileCheck
 	envFileContent, _ := godotenv.Marshal(envMap)
 	*envFileChecksum = fmt.Sprintf("%x", md5.Sum([]byte(envFileContent)))
 	envCmd := exec.Command("sh", "-s", "-", viper.GetString("publicKey"), fmt.Sprintf("./%s", envFileName))
-	// encrypt and save/override encrypted.env
+	// encrypt and save/override encrypted.json
 	envCmd.Stdin = strings.NewReader(EnvEncryptionScript)
 	if envCmdErr := envCmd.Run(); envCmdErr != nil {
 		return envCmdErr
