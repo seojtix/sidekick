@@ -69,10 +69,9 @@ func inspectServerPublicKey(key ssh.PublicKey, hostname string) {
 }
 
 func GetSshClient(server string, sshPort string, sshUser string) (*ssh.Client, error) {
-	//sshPort := "22"
 	sshAgentSock := os.Getenv("SSH_AUTH_SOCK")
 	if sshAgentSock == "" {
-		log.Fatal("No SSH SOCK AVAILABLE")
+		log.Fatal("No SSH SOCK AVAILABLE\nTry to run (or add in your profile config): eval \"$(ssh-agent -s)\"")
 		return nil, errors.New("Error happened connecting to ssh-agent")
 	}
 

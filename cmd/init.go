@@ -82,6 +82,7 @@ var InitCmd = &cobra.Command{
 		if port == "" {
 			portTextInput := pterm.DefaultInteractiveTextInput
 			portTextInput.DefaultText = "Please enter the SSH Port of your VPS"
+			portTextInput.DefaultValue = "22"
 			port, _ = portTextInput.Show()
 			if !utils.IsValidPort(port) {
 				pterm.Error.Printfln("You entered an incorrect SSH Port - %s", port)
