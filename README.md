@@ -1,3 +1,9 @@
+- linux/amd64: different architectures support
+- support other distros: CentOS, Debian, CoreOS
+- save logs
+- change encrypted .env to encrypted.json
+- configure traefik to use letsencrypt ssl
+
 <div align="center">
   <div>
     <img width="110px" src="https://emoji.aranja.com/static/emoji-data/img-apple-160/1f91c-1f3fb.png">

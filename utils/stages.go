@@ -33,7 +33,9 @@ var SetupStage = CommandsStage{
 	SpinnerSuccessMessage: "VPS updated and setup successfully",
 	SpinnerFailMessage:    "Error happened running basic setup commands",
 	Commands: []string{
-		"sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config && sudo systemctl restart ssh",
+		"sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config",
+		"sudo grep -q '^PermitRootLogin ' /etc/ssh/sshd_config || sudo bash -c 'echo \"PermitRootLogin no\" >> /etc/ssh/sshd_config'",
+		"sudo systemctl restart ssh",
 		"sudo apt-get update -y",
 		"sudo apt-get upgrade -y",
 		"sudo apt-get install age -y",
