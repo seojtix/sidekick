@@ -71,7 +71,7 @@ var InitCmd = &cobra.Command{
 
 		if server == "" {
 			serverTextInput := pterm.DefaultInteractiveTextInput
-			serverTextInput.DefaultText = "Please enter the IPv4 Address of your VPS"
+			serverTextInput.DefaultText = "Please enter the IPv4/IPv6 Address of your VPS"
 			server, _ = serverTextInput.Show()
 			if !utils.IsValidIPAddress(server) {
 				pterm.Error.Printfln("You entered an incorrect IP Address - %s", server)
